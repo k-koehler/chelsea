@@ -67,5 +67,27 @@ mut baz = "bax";
 Optional values are default mutable, and have the following syntax. 
 
 ``` 
-int? optional;
+int? a;
+int? b = 10;
 ```
+
+## Compound Types
+
+### Array
+
+There is only one compound type: the array. Arrays are fixed size.
+
+You can declare an array as a literal. 
+
+```
+var arr = [1, 2, 3];
+```
+
+Or default initialize an array to a fixed size.
+
+```
+var arr_size = 10;
+var array_of_ints = [0; size];
+```
+
+
