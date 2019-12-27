@@ -26,7 +26,7 @@ print(++i);
 In Chelsea there is no concept of null/undefined/etc. To mimic optional values via nullity, we can use optional types. 
 
 ```
-int? find_idx(string[len] arr, string flag){
+int? find_idx(string[] arr, int len, string flag){
   loop(mut i=0; i<len; ++i){
     if(arr[i] == flag)
       return i;
@@ -41,3 +41,13 @@ if(check(idx))
 else 
   print("no match!");
 ```
+
+### C-Like Syntax
+
+```
+inline int square(int x){
+  return x * x;
+}
+```
+
+
