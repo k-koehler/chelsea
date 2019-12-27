@@ -42,12 +42,8 @@ else
   print("no match!");
 ```
 
-### C-Like Syntax
+## Why Chelsea
 
-```
-inline int square(int x){
-  return x * x;
-}
-```
+Chelsea is being developed to create a very simple language, which maps readily to machine code, but also encourages good programming principles. Chelsea is inspired by C, but aims to avoid many of the problems that C programmers encounter. 
 
 
