@@ -35,8 +35,8 @@ int? find_idx(string[len] arr, string flag){
 
 ...
 
-var optional_idx = find_idx(some_arr, some_flag);
-if(check(optional_idx))
+var idx = find_idx(some_arr, some_flag);
+if(check(idx))
   print(idx);
 else 
   print("no match!");
