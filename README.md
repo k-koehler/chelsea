@@ -219,7 +219,7 @@ In `bar.ch`:
 
 ### Memory Management
 
-You may allocate memory from the stack, but you must do it explicitly via the `heap` and `memalloc`keywords.
+You may allocate memory from the heap, but you must do it explicitly via the `heap` and `memalloc`keywords.
 
     const int some_int = 1;
     // allocated on the stack
