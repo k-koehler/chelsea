@@ -46,6 +46,7 @@ The following primitives are available:
 3.  float
 4.  string
 5.  void
+6.  function
 
 The keyword `var` is available to infer the type of an expression:
 
@@ -54,20 +55,41 @@ The keyword `var` is available to infer the type of an expression:
 
 ### Functions
 
-Functions are declared with the following syntax:
+In Chelsea, functions are values. They must be assigned to a variable. They have a similar declaration syntax to C/C-like languages.
 
-    void hello_world(){
-      print("hello world");
-    }
+```
+const var foo = void () {
+  print("foo");
+}
+```
 
-They may be declared in any scope.
+Functions are type declared with the template `type (arg type 1, arg type 2, ..., arg type n)`.
 
-    int cube(const int x){
-       int square(const int x){
-         return x * x;
-       }
-       return square(square(x));
-     }
+```
+const int(int) square = int (const int x) {
+  return x * x;
+}
+```
+
+Functions may only access variables declared within the scope of the function itself.
+
+```
+const str = "Hello World!";
+const var print_string = void () {
+  print(str);
+}
+// err, cannot find symbol str
+```
+
+However, you may capture variables into function scope using the `captures` keyword.
+
+```
+const var cat = "cat";
+const var with_cat = void (const string x) captures cat {
+  print(cat, " ", x);
+}
+with_cat("dog");
+// prints "cat dog"
 
 ### Arrays
 
