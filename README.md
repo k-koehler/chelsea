@@ -350,13 +350,19 @@ const var hit_server = void (const string url) async {
    print(result.status_code);
 }
 
-print(hit_server("google.com"));
+hit_server("google.com")
 // error, must await async function "hit_server"
-print(await hit_server("google.com"));
+await hit_server("google.com")
 // error, not inside an async block
 async {
-  print(await hit_server("google.com"));
+  await hit_server("google.com");
 }
 // prints 200
+async {
+  hit_server("google.com");
+  print("foo");
+  await hit_server("server-that-returns-500.com");
+}
+// probably prints foo then 200 then 500
 ```
    
