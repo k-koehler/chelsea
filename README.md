@@ -392,7 +392,9 @@ import parse, stringify from 'json';
 import strtoi from 'string';
 
 const var parse_body_for_int = int? (const string body) {
-  if(check(parse(body).get("x)) => const string x && check(stroi(x)) => const int num){
+  mut string? x;
+  mut int? num;
+  if(check(parse(body).get("x), &x) && check(stroi(x), &num)){
     return num;
   }
 }
