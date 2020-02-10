@@ -145,6 +145,13 @@ struct Person {
 const var set_name = Person :: void (const Person* this, const string name) {
   this!.name = name;
 }
+
+const var person = Person { name: "Steve" };
+print(person.name);
+// "Steve"
+person.set_name("Kev");
+print(person.name);
+// "Kev"
 ```
 
 ### Control Flow
@@ -301,4 +308,32 @@ free(y);
 // ok
 free(y);
 // error, already freed y
+```
+
+You may declare a destructor for structs with the `~` operator.
+
+```
+struct ReferenceHolder {
+  const int* ref;
+}
+~Point :: void (const ReferenceHolder* this) {
+  free(this!.ref);
+}
+const var ref = heap(10);
+{
+  const var ref_holder = ReferenceHolder { ref };
+}
+// scope for ref_holder ends, destructor is called
+print(ref);
+// error, already freed ref
+```
+
+You may use the `box` keyword to generate a RAII object for dynamic objects.
+
+```
+{
+  const int* y = heap(10);
+  const int y = box(x);
+}
+// y is freed
 ```
