@@ -90,6 +90,7 @@ const var with_cat = void (const string x) captures cat {
 }
 with_cat("dog");
 // prints "cat dog"
+```
 
 ### Arrays
 
