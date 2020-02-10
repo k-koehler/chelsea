@@ -142,7 +142,7 @@ struct Person {
   const string name;
 }
 
-const void(const Person*, const string) set_name = Person :: void (const Person* this, const string name) {
+const var set_name = Person :: void (const Person* this, const string name) {
   this!.name = name;
 }
 ```
