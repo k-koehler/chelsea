@@ -178,10 +178,8 @@ You may specify an initializer, loop guard, and post-loop expression, similar to
 
 ### Optional Variables
 
-In Chelsea, there is no literal to represent `null`/`undefined`/etc. You may declare a mutable variable to be optional, but it must be checked before use, via the `check` keyword. To declare a variable as optional, we use the `?` token.
+In Chelsea, there is no literal to represent `null`/`undefined`/etc. You may declare a variable to be optional, but it must be checked before use, via the `check` keyword. To declare a variable as optional, we use the `?` token.
 
-    const int? x;
-    // error, const cannot be optionat
     mut int? x;
     const var y = x * 2;
     // error, must check optional variable x
@@ -250,35 +248,57 @@ In `bar.ch`:
     import square from "./foo.ch";
     print(square(5));
     //prints 25
+    
+### Errors
+
+You may throw an unrecoverable error with the `error` keyword.
+
+```
+const var index_arr = int(const int[10] arr, const int index){
+  if(index < 0){
+    error("Index must not be negative!");
+  }
+  return arr[index];
+}
+```
+
+Many times, however, you will want to handle your error, such as opening a file. The idiomatic way to do this, is to use optional variables with the `check` keyword.
+
+```
+const File*? fp = open("foo.txt");
+if(check(fp)){
+  // succeeded
+}
+```
 
 ### Memory Management
 
-You may allocate memory from the heap, but you must do it explicitly via the `heap` and `memalloc`keywords.
+In Chelsea, there is no garbage collector. You must explicitly allocate and free heap memory.
 
-    const int some_int = 1;
-    // allocated on the stack
-    const heap int* some_other_int = memalloc 1;
-    // allocated on the heap
+To allocate memory from the heap, you may use the `heap` keyword. You may give the `heap` operator a primitive, array, or scalar initialized struct as an argument.
 
-There is no garbage collector, and heap allocated memory must be freed with the `delete`keyword. You may no longer access a variable after deleting it.
+```
+const int* heap_int = heap(0);
+print(heap_int!);
+// 0
+const int[10]* heap_int_arr = heap([0; 10]);
+print_array(heap_int_arr!);
+// 0,0,0,0,0,0,0,0,0,0
+const Person* person = heap(Person { name: "Jane", age: 33 });
+print(person!.name);
+// "Jane"
+```
 
-    const var bob = memalloc Person { name = "Bob"; age = 42; }
-    delete bob;
-    print(bob!.name);
-    // error, cannot find symbol bob
+To free memory, you may use the `free` keyword. If you a pointer to the stack, or memory which has already been freed, an unrecoverable error with be thrown.
 
-You may only delete a resource within the scope that it was declared:
 
-    void del(const heap int* x){
-      delete x;
-    }
-    // error, cannot delete x because it was declared out of scope
-
-To ensure your heap allocated memory is freed at the end of the current scope, the `membox` keyword may be used before any block.
-
-    loop (mut int i=0; i<10; ++i) {
-      const int heap_int = membox(memalloc i);
-    }
-    // memory is freed here, after the loop scope closes
-
-The `membox` keyword is internally implemented to adhere to the RAII pattern, but only for heap allocated memory, using `delete` as the destructor.
+```
+const int x = 10;
+free(&x);
+// error, x not allocated on heap
+const int* y = heap(42);
+free(y);
+// ok
+free(y);
+// error, already freed y
+```
