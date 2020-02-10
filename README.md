@@ -316,7 +316,7 @@ You may declare a destructor for structs with the `~` operator.
 struct ReferenceHolder {
   const int* ref;
 }
-~Point :: void (const ReferenceHolder* this) {
+const var ~ = Point :: void (const ReferenceHolder* this) {
   free(this!.ref);
 }
 const var ref = heap(10);
