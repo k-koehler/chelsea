@@ -401,7 +401,7 @@ export const var hello = void (const Context* ctx) async {
   if(check(parse_body_for_int(ctx!.body)) => const var x){ 
     return Response {
       status_code: 200,
-      body: stringify(x)
+      body: stringify(x*x)
     }
   }
   return Response {
