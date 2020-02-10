@@ -337,3 +337,26 @@ You may use the `box` keyword to generate a RAII object for dynamic objects.
 }
 // y is freed
 ```
+
+### Async/Await
+
+You may declare blocks to be async and await them. You may not use an async value until awaited. You may not await an async value unless inside an async block.
+
+```
+import get from 'net';
+
+const var hit_server = void (const string url) async {
+   const var result = await get(url);
+   print(result.status_code);
+}
+
+print(hit_server("google.com"));
+// error, must await async function "hit_server"
+print(await hit_server("google.com"));
+// error, not inside an async block
+async {
+  print(await hit_server("google.com"));
+}
+// prints 200
+```
+   
