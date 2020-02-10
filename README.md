@@ -187,37 +187,40 @@ You may specify an initializer, loop guard, and post-loop expression, similar to
 
 In Chelsea, there is no literal to represent `null`/`undefined`/etc. You may declare a variable to be optional, but it must be checked before use, via the `check` keyword. To declare a variable as optional, we use the `?` token.
 
-    mut int? x;
-    const var y = x * 2;
-    // error, must check optional variable x
-    if(check(x)){
-      print(x);
-    }
-    // will not execute the block, x is not yet initialized
-    x = 10;
-    if(check(x)){
-      print(x);
-    }
-    //prints 10
+```
+mut int? x;
+print(x * 3);
+// error, didn't check x
+if(check(x)){
+  print(x * 3);
+}
+// will never run, check is false
+x = 10;
+if(check(x)){
+  print(x * 3);
+}
+// prints 30
+```
 
-To help illustrate the usage optional variables, we will make a basic linked list.
+The `check` function allows a pointer to the variable that it checks, and will reassign the pointer to the value checked on success. The compiler is smart enough to allow you to use an optional value which has been passed as an argument to the `check` operator.
 
-    struct Node {
-      const int value;
-      mut Node*? next;
-    }
+```
+const var square_if_even = int? (const int x) {
+  if(x % 2 == 0) {
+    return x * x;
+  }
+}
 
-    void print_list(const Node* head){
-      mut var cur = head;
-      loop {
-        print(cur!.value);
-        if(check(cur.next)){
-          cur = cur.next;
-        } else {
-          break;
-        }
-      }
-    }
+mut int? num;
+if(check(square_if_even(2), &num){
+  print(num);
+}
+// prints 4
+if(check(square_if_even(3), &num){
+  print(num);
+}
+//does nothing
+```
 
 ### Pointers
 
@@ -391,7 +394,7 @@ import Response from 'net';
 import parse, stringify from 'json';
 import strtoi from 'string';
 
-const var parse_body_for_int = int? (const string body) {
+const int? (string) parse_body_for_int = int? (const string body) {
   mut string? x;
   mut int? num;
   if(check(parse(body).get("x"), &x) && check(stroi(x), &num)){
@@ -400,7 +403,8 @@ const var parse_body_for_int = int? (const string body) {
 }
   
 export const async Response(Context*) hello = void (const Context* ctx) async {
-  if(check(parse_body_for_int(ctx!.body)) => const var x){ 
+  mut int? x;
+  if(check(parse_body_for_int(ctx!.body), &x)){ 
     return Response {
       status_code: 200,
       body: stringify(x*x)
