@@ -126,15 +126,26 @@ They must first be declared.
 They may be declared via the following literal syntax:
 
     const Person person = Person {
-      name = "Bob Doe";
-      age = 42;
+      name: "Bob Doe";
+      age: 42;
     }
 
 To access struct properties, we use the `.` operator.
 
-    const Person person = some_person();
     print(person.name);
     // prints the person's name
+
+You may add a method to a struct with the `::` operator.
+
+```
+struct Person {
+  const string name;
+}
+
+const void(const Person*, const string) set_name = Person :: void (const Person* this, const string name) {
+  this!.name = name;
+}
+```
 
 ### Control Flow
 
