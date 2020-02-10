@@ -366,3 +366,46 @@ async {
 // probably prints foo then 200 then 500
 ```
    
+## Example REST Server
+
+main.ch
+
+```
+import server from 'net';
+import square from './hello.ch';
+
+const var num_cores = 4;
+const var app = server(8080);
+
+app.post("/square", square);
+
+async {
+  app.run();
+}
+```
+
+square.ch
+
+```
+import Response from 'net';
+import parse, stringify from 'json';
+import strtoi from 'string';
+
+const var parse_body_for_int = int? (const string body) {
+  if(check(parse(body).get("x)) => const string x && check(stroi(x)) => const int num){
+    return num;
+  }
+}
+  
+export const var hello = void (const Context* ctx) async {
+  if(check(parse_body_for_int(ctx!.body)) => const var x){ 
+    return Response {
+      status_code: 200,
+      body: stringify(x),
+  }
+  return Response {
+    status_code: 422,
+    body: "Invalid Request."
+  }
+}
+```
