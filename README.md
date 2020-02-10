@@ -399,7 +399,7 @@ const var parse_body_for_int = int? (const string body) {
   }
 }
   
-export const var hello = void (const Context* ctx) async {
+export const async Response(const Context*) hello = void (const Context* ctx) async {
   if(check(parse_body_for_int(ctx!.body)) => const var x){ 
     return Response {
       status_code: 200,
