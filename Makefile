@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-Weverything -std=c++17
+CCFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -std=c++17
 TARGET=chc
 
 SRCPATH=src

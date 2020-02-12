@@ -1,8 +1,26 @@
 #include "lex.hpp"
 
-std::vector<Token> lex(const std::string &src) {
-  std::vector<Token> vec;
-  for (auto &c : src) {
+using std::string;
+using std::vector;
+
+int munch_lparen(int cur_index, const string &src, vector<Token> &vec) {
+  struct Token tok = {.type = LPAREN, .value = string(1, src[cur_index])};
+  vec.push_back(tok);
+  return 1;
+}
+
+vector<Token> lex(const string &src) {
+  vector<Token> vec;
+  for (int i = 0; i < src.length();) {
+    const char c = src[i];
+    switch (c) {
+    case '(':
+      i += munch_lparen(i, src, vec);
+      break;
+    default:
+      ++i;
+      break;
+    }
   }
   return vec;
 }
