@@ -28,8 +28,7 @@ static inline void unexpected_symbol(int index, const char symbol) {
 
 vector<Token> lex(const string &src) {
   vector<Token> vec;
-  int index = 0;
-  while (index < src.length()) {
+  for (int index = 0; index < src.length();) {
     const char current_char = src[index];
     if (std::isspace(current_char)) {
       index += munch_whitespace(index, src);
