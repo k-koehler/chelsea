@@ -8,12 +8,13 @@ enum TokenType {
   LPAREN = 0,
   RPAREN,
   BINOP_ADD,
+  BINOP_SUB,
   BINOP_MUL,
   BINOP_DIV,
   BINOP_MOD,
+  BINOP_ASSIGN,
   OP_INCR,
   OP_DECR,
-  OP_ASSIGN,
   INT_8_LITERAL,
   INT_16_LITERAL,
   INT_32_LITERAL,
@@ -21,6 +22,7 @@ enum TokenType {
   KEYWORD_CONST,
   KEYWORD_MUT,
   KEYWORD_VAR,
+  SEPARATOR,
 };
 
 struct Token {

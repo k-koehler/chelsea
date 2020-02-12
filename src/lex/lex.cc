@@ -38,8 +38,33 @@ vector<Token> lex(const string &src) {
     case '(':
       index += munch_single(current_char, vec, LPAREN);
       break;
+    case ')':
+      index += munch_single(current_char, vec, RPAREN);
+      break;
+    case '+':
+      index += munch_single(current_char, vec, BINOP_ADD);
+      break;
+    case '-':
+      index += munch_single(current_char, vec, BINOP_SUB);
+      break;
+    case '*':
+      index += munch_single(current_char, vec, BINOP_MUL);
+      break;
+    case '/':
+      index += munch_single(current_char, vec, BINOP_DIV);
+      break;
+    case '%':
+      index += munch_single(current_char, vec, BINOP_MOD);
+      break;
+    case '=':
+      index += munch_single(current_char, vec, BINOP_ASSIGN);
+      break;
+    case ';':
+      index += munch_single(current_char, vec, SEPARATOR);
+      break;
     default:
       unexpected_symbol(index, current_char);
+      break;
     }
   }
   return vec;
