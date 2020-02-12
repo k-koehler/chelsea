@@ -12,8 +12,7 @@ int munch_lparen(int cur_index, const string &src, vector<Token> &vec) {
 vector<Token> lex(const string &src) {
   vector<Token> vec;
   for (int i = 0; i < src.length();) {
-    const char c = src[i];
-    switch (c) {
+    switch (src[i]) {
     case '(':
       i += munch_lparen(i, src, vec);
       break;
