@@ -16,7 +16,7 @@ static inline int munch_whitespace(int cur_index, const string &src) {
 
 static inline int munch_single(const char symbol, vector<Token> &vec,
                                const TokenType token_type) {
-  struct Token tok = {.type = token_type, .value = string(1, symbol)};
+  const struct Token tok = {.type = token_type, .value = string(1, symbol)};
   vec.push_back(tok);
   return 1;
 }
