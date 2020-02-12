@@ -1,7 +1,6 @@
 #ifndef LEX_HPP
 #define LEX_HPP
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -27,6 +26,11 @@ enum TokenType {
 struct Token {
   const TokenType type;
   const std::string value;
+};
+
+struct LexingError {
+  const int index;
+  const char symbol;
 };
 
 std::vector<Token> lex(const std::string &);
