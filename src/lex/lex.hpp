@@ -4,31 +4,31 @@
 #include <string>
 #include <vector>
 
-enum FirstPassTokenType {
-  LPAREN = 0,
-  RPAREN,
-  PLUS,
-  MINUS,
-  ASTERISK,
-  DIV,
-  MOD,
-  ASSIGN,
-  LITERAL,
-  IDENTIFIER,
-  KEYWORD,
-  SEPARATOR,
+enum TokenType {
+    LPAREN = 0,
+    RPAREN,
+    PLUS,
+    MINUS,
+    ASTERISK,
+    DIV,
+    MOD,
+    ASSIGN,
+    LITERAL,
+    IDENTIFIER,
+    KEYWORD,
+    SEPARATOR,
 };
 
-struct FirstPassToken {
-  const FirstPassTokenType type;
-  const std::string value;
+struct Token {
+    const TokenType type;
+    const std::string value;
 };
 
 struct LexingError {
-  const int index;
-  const char symbol;
+    const int index;
+    const char symbol;
 };
 
-std::vector<FirstPassToken> first_pass_lex(const std::string &);
+std::vector<Token> lex(const std::string &);
 
-#endif // LEX_HPP
+#endif  // LEX_HPP
