@@ -3,10 +3,10 @@
 #include "lex.hpp"
 
 void test_munch_unexpected_symbol() {
-  const std::string src = "sdfsjkdfjksdfkj";
+  const std::string src = "\\";
   bool threw = false;
   try {
-    lex(src);
+    first_pass_lex(src);
   } catch (LexingError &) {
     threw = true;
   }
@@ -15,25 +15,25 @@ void test_munch_unexpected_symbol() {
 
 void test_munch_whitespace_space() {
   const std::string src = "  ";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 0);
 }
 
 void test_munch_whitespace_tab() {
   const std::string src = "\t\t";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 0);
 }
 
 void test_munch_whitespace_newline() {
   const std::string src = "\n\n";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 0);
 }
 
 void test_munch_lparen() {
   const std::string src = "((";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
     assert(tok.type == LPAREN);
@@ -43,7 +43,7 @@ void test_munch_lparen() {
 
 void test_munch_rparen() {
   const std::string src = "))";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
     assert(tok.type == RPAREN);
@@ -54,10 +54,10 @@ void test_munch_rparen() {
 // TODO ++
 void test_munch_binop_plus() {
   const std::string src = "++";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_ADD);
+    assert(tok.type == PLUS);
     assert(tok.value == std::string("+"));
   }
 }
@@ -65,10 +65,10 @@ void test_munch_binop_plus() {
 //// TODO --
 void test_munch_binop_sub() {
   const std::string src = "--";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_SUB);
+    assert(tok.type == MINUS);
     assert(tok.value == std::string("-"));
   }
 }
@@ -76,10 +76,10 @@ void test_munch_binop_sub() {
 // TODO pointer, *=
 void test_munch_binop_mul() {
   const std::string src = "**";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_MUL);
+    assert(tok.type == ASTERISK);
     assert(tok.value == std::string("*"));
   }
 }
@@ -87,20 +87,20 @@ void test_munch_binop_mul() {
 // TODO /=
 void test_munch_binop_div() {
   const std::string src = "//";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_DIV);
+    assert(tok.type == DIV);
     assert(tok.value == std::string("/"));
   }
 }
 
 void test_munch_binop_mod() {
   const std::string src = "%%";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_MOD);
+    assert(tok.type == MOD);
     assert(tok.value == std::string("%"));
   }
 }
@@ -108,22 +108,59 @@ void test_munch_binop_mod() {
 // TODO ==
 void test_munch_binop_assign() {
   const std::string src = "==";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
-    assert(tok.type == BINOP_ASSIGN);
+    assert(tok.type == ASSIGN);
     assert(tok.value == std::string("="));
   }
 }
 
 void test_munch_sep() {
   const std::string src = ";;";
-  const std::vector<Token> tokens = lex(src);
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
   assert(tokens.size() == 2);
   for (const auto &tok : tokens) {
     assert(tok.type == SEPARATOR);
     assert(tok.value == std::string(";"));
   }
+}
+
+void test_munch_identifier() {
+  const std::string src = "identifier1 _identifier2";
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
+  assert(tokens.size() == 2);
+  assert(tokens[0].value == std::string("identifier1"));
+  assert(tokens[0].type == IDENTIFIER);
+  assert(tokens[1].value == std::string("_identifier2"));
+  assert(tokens[1].type == IDENTIFIER);
+}
+
+void test_munch_basic_digit() {
+  const std::string src = "328329 234234";
+  const std::vector<FirstPassToken> tokens = first_pass_lex(src);
+  assert(tokens.size() == 2);
+  assert(tokens[0].value == std::string("328329"));
+  assert(tokens[0].type == LITERAL);
+  assert(tokens[1].value == std::string("234234"));
+  assert(tokens[1].type == LITERAL);
+}
+
+void test_munch_various_first_pass_tokens_1() {
+  const std::string src = "const var foo = 10;";
+  const auto tokens = first_pass_lex(src);
+  assert(tokens[0].type == IDENTIFIER);
+  assert(tokens[0].value == std::string("const"));
+  assert(tokens[1].type == IDENTIFIER);
+  assert(tokens[1].value == std::string("var"));
+  assert(tokens[2].type == IDENTIFIER);
+  assert(tokens[2].value == std::string("foo"));
+  assert(tokens[3].type == ASSIGN);
+  assert(tokens[3].value == std::string("="));
+  assert(tokens[4].type == LITERAL);
+  assert(tokens[4].value == std::string("10"));
+  assert(tokens[5].type == SEPARATOR);
+  assert(tokens[5].value == std::string(";"));
 }
 
 int main() {
@@ -140,6 +177,9 @@ int main() {
   test_munch_binop_mod();
   test_munch_binop_assign();
   test_munch_sep();
+  test_munch_identifier();
+  test_munch_basic_digit();
+  test_munch_various_first_pass_tokens_1();
   std::cout << "Success!" << std::endl;
   return EXIT_SUCCESS;
 }

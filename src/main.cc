@@ -5,6 +5,6 @@
 const std::string src = "hello";
 
 int main() {
-  lex(src);
+  first_pass_lex(src);
   return EXIT_SUCCESS;
 }

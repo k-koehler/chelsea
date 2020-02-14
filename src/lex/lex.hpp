@@ -4,27 +4,23 @@
 #include <string>
 #include <vector>
 
-enum TokenType {
+enum FirstPassTokenType {
   LPAREN = 0,
   RPAREN,
-  BINOP_ADD,
-  BINOP_SUB,
-  BINOP_MUL,
-  BINOP_DIV,
-  BINOP_MOD,
-  BINOP_ASSIGN,
-  INT_8_LITERAL,
-  INT_16_LITERAL,
-  INT_32_LITERAL,
-  INT_64_LITERAL,
-  KEYWORD_CONST,
-  KEYWORD_MUT,
-  KEYWORD_VAR,
+  PLUS,
+  MINUS,
+  ASTERISK,
+  DIV,
+  MOD,
+  ASSIGN,
+  LITERAL,
+  IDENTIFIER,
+  KEYWORD,
   SEPARATOR,
 };
 
-struct Token {
-  const TokenType type;
+struct FirstPassToken {
+  const FirstPassTokenType type;
   const std::string value;
 };
 
@@ -33,6 +29,6 @@ struct LexingError {
   const char symbol;
 };
 
-std::vector<Token> lex(const std::string &);
+std::vector<FirstPassToken> first_pass_lex(const std::string &);
 
 #endif // LEX_HPP

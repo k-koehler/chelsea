@@ -1,5 +1,5 @@
 CC=clang++
-CCFLAGS=-Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-missing-prototypes -std=c++17
+CCFLAGS=-Weverything -Wno-c++11-extensions -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-missing-prototypes -Wno-c99-extensions -std=c++17
 TARGET=chc
 
 SRCPATH=src
@@ -17,7 +17,7 @@ test_lex: lex.o
 	@make clean
 
 lex.o: $(LEXPATH)/lex.cc $(LEXPATH)/lex.hpp
-	@$(CC) $(CFLAGS) -c $(LEXPATH)/lex.cc
+	@$(CC) $(CCFLAGS) -c $(LEXPATH)/lex.cc
 
 TARGETS = $(TARGET) $(TEST_LEX_TARGET)
 
