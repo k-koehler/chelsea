@@ -25,3 +25,19 @@ fn add(const l: List, const val: int){
   }
 }
 ```
+
+# HTTP Server
+
+```
+import http from 'https://lib.org/http';
+
+const server = http.Server(http.ServerOpts {
+  port = 80
+})
+
+server.json("/", fn () {
+  return "hello world!";
+});
+
+server.serve();
+```
