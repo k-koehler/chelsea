@@ -5,8 +5,6 @@ fn Node(const type T){
   }
 }
 
-
-
 export fn LinkedList(const type T){
   return struct {
     mut Node(T)*? head;
@@ -40,18 +38,3 @@ export fn LinkedList(const type T){
     error("not initialized");
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
