@@ -1,0 +1,57 @@
+fn Node(const type T){
+  return struct {
+    mut T value;
+    mut Node(T)*? next;
+  }
+}
+
+
+
+export fn LinkedList(const type T){
+  return struct {
+    mut Node(T)*? head;
+    mut Node(T)*? tail;
+    mut uint size;
+    
+    void fn add(const LinkedList* this, const T value){
+      const Node* node = heap(Node { value });
+      with this.tail as tl {
+        tail.next = node;
+        goto end;
+      }
+      this.head = node;
+      this.tail = node;
+    end:
+      ++this.size;
+    }
+  }
+  
+  T fn get(const LinkedList* this, const int idx){
+    with this.head as cur {
+      loop(mut uint i=0u; i<idx ;++i){
+        with cur.next as next {
+          cur = next;
+          continue;
+        }
+        error("out of range");
+      }
+      return cur.value;
+    }
+    error("not initialized");
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
