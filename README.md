@@ -47,6 +47,7 @@ The following primitives are available:
 4.  string
 5.  void
 6.  function
+7.  type
 
 The keyword `var` is available to infer the type of an expression:
 
@@ -55,41 +56,19 @@ The keyword `var` is available to infer the type of an expression:
 
 ### Functions
 
-In Chelsea, functions are values. They must be assigned to a variable. They have a similar declaration syntax to C/C-like languages.
+Functions in Chelsea are declared using the `fn` keyword:
 
 ```
-const var foo = void () {
-  print("foo");
+fn hello(){
+  print("hello");
 }
-```
 
-Functions are type declared with the template `type (arg type 1, arg type 2, ..., arg type n)`.
+const var x = (fn (const int n) { return n; })(42);
 
-```
-const int(int) square = int (const int x) {
-  return x * x;
+
+int fn add(const int x, const int y) {
+  return x + y;
 }
-```
-
-Functions may only access variables declared within the scope of the function itself.
-
-```
-const str = "Hello World!";
-const var print_string = void () {
-  print(str);
-}
-// err, cannot find symbol str
-```
-
-However, you may capture variables into function scope using the `captures` keyword.
-
-```
-const var cat = "cat";
-const var with_cat = void (const string x) captures cat {
-  print(cat, " ", x);
-}
-with_cat("dog");
-// prints "cat dog"
 ```
 
 ### Arrays
@@ -185,41 +164,37 @@ You may specify an initializer, loop guard, and post-loop expression, similar to
 
 ### Optional Variables
 
-In Chelsea, there is no literal to represent `null`/`undefined`/etc. You may declare a variable to be optional, but it must be checked before use, via the `check` keyword. To declare a variable as optional, we use the `?` token.
+In Chelsea, there is no literal to represent `null`/`undefined`/etc. You may declare a variable to be optional, but it must be checked before use, via the `with` keyword. To declare a variable as optional, we use the `?` token.
 
 ```
 mut int? x;
-print(x * 3);
-// error, didn't check x
-if(check(x)){
-  print(x * 3);
+with x {
+  print(x);
 }
-// will never run, check is false
-x = 10;
-if(check(x)){
-  print(x * 3);
+// does nothing
+x = 3;
+print(x)
+// error, need to check existence
+with x {
+  print(x);
 }
-// prints 30
 ```
 
-The `check` function allows a pointer to the variable that it checks, and will reassign the pointer to the value checked on success. The compiler is smart enough to allow you to use an optional value which has been passed as an argument to the `check` operator.
+Many times you will want to check the existence of an expression, such as a function call. This can be done using the `with-as` construction.
 
 ```
-const var square_if_even = int? (const int x) {
-  if(x % 2 == 0) {
-    return x * x;
+int? fn get_even_number(const int[3] arr){
+  loop(mut var i=0; i<lengthof arr; ++i){
+    if(arr[i] % 2 == 0){
+      return arr[i];
+    }
   }
 }
 
-mut int? num;
-if(check(square_if_even(2), &num){
-  print(num);
+with get_even_number([1,2,3]) as n {
+  print(n);
 }
-// prints 4
-if(check(square_if_even(3), &num){
-  print(num);
-}
-//does nothing
+// prints 2
 ```
 
 ### Pointers
@@ -339,4 +314,39 @@ You may use the `box` keyword to generate a RAII object for dynamic objects.
   const int y = box(x);
 }
 // y is freed
+```
+
+## Advanced Features
+
+### Everything is an expression
+
+Any block can yield an expression by omitting the semi-colon.
+
+```
+const var calculated_value = {
+  const var x = 3;
+  const var y = 5;
+  const var z = 7;
+  x * y + z
+}
+print(calculated_value);
+// 22
+```
+
+We can use this feature in cool ways, like conditional assignments.
+
+```
+const var x = 2;
+const var result = if (x % 2 == ) { "even" } else { "odd }
+print(result);
+// "even"
+```
+
+Or loop initializers:
+
+
+```
+const var sum = loop (mut var i = mut var sum = 1; i <= 100; sum += ++i) { sum }
+print(sum);
+// 5050
 ```
