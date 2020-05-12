@@ -360,3 +360,28 @@ const var result =
   else if (x == 0) { yield "zero"; }
   else             { yield "positive"; }
 ```
+
+## Types as a type
+
+In Chelsea, you may store types as a variable.
+
+```
+const int x = 3;
+const type t = typeof x;
+print(t);
+// "int"
+```
+
+This allows us to declare generic data types.
+
+```
+type fn Node(const type T){
+  return struct {
+    const T value;
+    const Node(T)*? next;
+  }
+}
+
+const var node1 = Node(int) { value: 0 }
+const var node2 = Node(int) { value: 1, next: &node1 }
+```
