@@ -320,15 +320,15 @@ You may use the `box` keyword to generate a RAII object for dynamic objects.
 
 ### Everything is an expression
 
-Any block can yield an expression by omitting the semi-colon.
+Any block can yield an expression using the `yield` keyword:
 
 ```
 const var calculated_value = {
   const var x = 3;
   const var y = 5;
   const var z = 7;
-  x * y + z
-}
+  yield x * y + z;
+};
 print(calculated_value);
 // 22
 ```
@@ -337,7 +337,7 @@ We can use this feature in cool ways, like conditional assignments.
 
 ```
 const var x = 2;
-const var result = if (x % 2 == ) { "even" } else { "odd }
+const var result = if (x % 2 == ) { yield "even"; } else { yield "odd; }
 print(result);
 // "even"
 ```
@@ -346,7 +346,17 @@ Or loop initializers:
 
 
 ```
-const var sum = loop (mut var i = mut var sum = 1; i <= 100; sum += ++i) { sum }
+const var sum = loop (mut var i = mut var sum = 1; i <= 100; sum += ++i) { yield sum; }
 print(sum);
 // 5050
+```
+
+We can even simulate pattern matching in this fashion.
+
+```
+const var x = 10;
+const var result =
+  if      (x < 0)  { yield "negative"; }
+  else if (x == 0) { yield "zero"; }
+  else             { yield "positive"; }
 ```
