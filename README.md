@@ -342,11 +342,16 @@ print(result);
 // "even"
 ```
 
-Or loop initializers:
+Or loop initializers.
 
 
 ```
-const var sum = loop (mut var i = mut var sum = 1; i <= 100; sum += ++i) { yield sum; }
+const var sum = outer: loop (mut var i = mut var sum = 1; ; sum += ++i) {
+  if(i>=100){
+    yield outer sum; 
+  }
+  continue;
+}
 print(sum);
 // 5050
 ```
