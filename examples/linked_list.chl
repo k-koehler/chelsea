@@ -9,7 +9,7 @@ export fn LinkedList(const type T){
   return struct {
     mut Node(T)*? head;
     mut Node(T)*? tail;
-    mut uint size;
+    mut uint size = 0;
     
     void fn add(const LinkedList* this, const T value){
       const Node* node = heap(Node { value });
