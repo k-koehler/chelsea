@@ -77,11 +77,11 @@ Arrays are fixed size are may be declared in two ways.
 
 As a literal:
 
-    const int[3] int_arr = [1,2,3];
+    const int[] int_arr = [1,2,3];
 
 Or with an initializer:
 
-    const int[100] int_arr = [0; 100];
+    const int[] int_arr = [0; 100];
 
 Arrays may be accessed by index:
 
