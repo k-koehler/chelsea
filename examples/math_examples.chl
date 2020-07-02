@@ -1,7 +1,7 @@
-import sqrt, pow from 'math';
+import sqrt, pow from "math";
 import
   ArrayList,
-from 'generic';
+from "generic";
 
 declare Vector struct {
   const number x, y, z;
