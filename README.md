@@ -320,7 +320,7 @@ const type ReferenceHolder = struct {
   }
 }
 {
-  const int* ref =  heap(10)
+  const int* ref =  heap(10);
   const var ref = ReferenceHolder({ ref });
 }
 // ref is freed
@@ -407,8 +407,8 @@ type fn Node(const type T){
   }
 }
 
-const var node1 = Node(int) { value: 0 }
-const var node2 = Node(int) { value: 1, next: &node1 }
+const var node1 = Node(int) { value: 0 };
+const var node2 = Node(int) { value: 1, next: &node1 };
 ```
 
 ## Declare Expressions
@@ -416,7 +416,7 @@ const var node2 = Node(int) { value: 1, next: &node1 }
 You may use the keyword `declare` to declare values in the following way:
 
 ```
-declare <identifier> <value>
+declare <identifier> <value>;
 ```
 
 All declared variables are const. The value must be known at compile time. This can allow arbitrary compile-time resolution and make code more readable.
@@ -426,9 +426,9 @@ declare Vector struct {
   const int x;
   const int y;
   const int z;
-}
+};
 
-const var vec = { x: 1, y: 2, z: 3 };
+const var vec = Vector { x: 1, y: 2, z: 3 };
 
 declare FAC_10 {
   fn fac(const int n){
@@ -438,5 +438,5 @@ declare FAC_10 {
     return n * fac(n-1);
   }
   yield fac(10);
-}
+};
 ```
