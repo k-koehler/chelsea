@@ -11,29 +11,29 @@ export fn LinkedList(const type T){
     mut Node(T)*? tail;
     mut uint size = 0;
     
-    void fn add(const LinkedList* this, const T value){
+    fn add(const T value){
       const Node* node = heap(Node { value });
-      with this.tail as tl {
-        tail.next = node;
+      with this!.tail as tl {
+        tail!.next = node;
         goto end;
       }
-      this.head = node;
-      this.tail = node;
+      this!.head = node;
+      this!.tail = node;
     end:
       ++this.size;
     }
   }
   
-  T fn get(const LinkedList* this, const int idx){
-    with this.head as cur {
+  T fn get(const int idx){
+    with this!.head as cur {
       loop(mut uint i=0u; i<idx ;++i){
-        with cur.next as next {
+        with cur!.next as next {
           cur = next;
           continue;
         }
         error("out of range");
       }
-      return cur.value;
+      return cur!.value;
     }
     error("not initialized");
   }
