@@ -410,3 +410,33 @@ type fn Node(const type T){
 const var node1 = Node(int) { value: 0 }
 const var node2 = Node(int) { value: 1, next: &node1 }
 ```
+
+### Declare Expressions
+
+You may use the keyword `declare` to declare values in the following way:
+
+```
+declare <identifier> <value>
+```
+
+All declared variables are const. The value must be known at compile time. This can allow arbitrary compile-time resolution and make code more readable.
+
+```
+declare Vector struct {
+  const int x;
+  const int y;
+  const int z;
+}
+
+const var vec = { x: 1, y: 2, z: 3 };
+
+declare FAC_10 {
+  fn fac(const int n){
+    if(n == 1){
+      return 1;
+    }
+    return n * fac(n-1);
+  }
+  yield fac(10);
+}
+```
