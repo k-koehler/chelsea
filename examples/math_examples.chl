@@ -1,9 +1,12 @@
 import sqrt, pow from 'math';
+import
+  ArrayList,
+from 'generic';
 
 declare Vector struct {
   const number x, y, z;
   number fn dist(const Vector q){
-    const var p = this;
+    const var p = &this;
     return sqrt(
       pow(q.x - p.x, 2) + pow(q.y - p.y, 2) + pow(q.y - p.y, 2)
     );
@@ -12,11 +15,49 @@ declare Vector struct {
 print((Vector { 1, 2, 3}).dist(Vector {2, 3, 4}));
 // 1
 
-fn fib(const uint n){
+fn fac(const uint n){
   return 
     if (n == 1) { yield 1u; }
     else        { yield n * fib(n-1); }
 }
 
-print(fib(10));
+print(fac(10));
 // 3628800
+
+fn is_prime(const uint n){
+  const var bound = cast(sqrt(n), uint);
+  loop(mut var i=2u; i<=bound; ++i){
+    if(n % i == 0){
+      return false;
+    }
+  }
+  return true;
+}
+
+is_prime(7);
+// true
+is_prime(6);
+// false
+
+number[]* fn basis(const uint n, const uint len){
+  const var basis_vec = heap([0;len]);
+  basis_vec[n] = 1;
+  return basis_vec;
+}
+
+const example_basis = basis(2,10);
+print(basis10!);
+// [0,0,1,0,0,0,0,0,0,0]
+
+ArrayList(number) fn factors(const number n){
+  const var factors = ArrayList(number);
+  loop(mut var i=1; i<=n; ++i){
+    if(n % i == 0){
+      arraylist.push(i);
+    }
+  }
+  return factors;
+}
+
+print(factors(10));
+// ArrayList [ 1, 2, 5, 10 ]
