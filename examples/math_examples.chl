@@ -6,7 +6,7 @@ from "generic";
 declare Vector struct {
   const number x, y, z;
   number fn dist(const Vector q){
-    const var p = &this;
+    const var p = this!;
     return sqrt(
       pow(q.x - p.x, 2) + pow(q.y - p.y, 2) + pow(q.y - p.y, 2)
     );
