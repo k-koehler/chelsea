@@ -411,7 +411,7 @@ const var node1 = Node(int) { value: 0 }
 const var node2 = Node(int) { value: 1, next: &node1 }
 ```
 
-### Declare Expressions
+## Declare Expressions
 
 You may use the keyword `declare` to declare values in the following way:
 
