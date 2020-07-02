@@ -250,8 +250,7 @@ const var index_arr = int(const int[10] arr, const int index){
 Many times, however, you will want to handle your error, such as opening a file. The idiomatic way to do this, is to use optional variables with the `check` keyword.
 
 ```
-const File*? fp = open("foo.txt");
-if(check(fp)){
+with open("foo.txt") as fp {
   // succeeded
 }
 ```
