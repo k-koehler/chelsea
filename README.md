@@ -97,7 +97,7 @@ Structs contain arbitrary fields.
 
 They must first be declared.
 
-    struct Person {
+    const type Person = struct {
        const string name;
        const uint age;
     }
@@ -114,15 +114,15 @@ To access struct properties, we use the `.` operator.
     print(person.name);
     // prints the person's name
 
-You may add a method to a struct with the `::` operator.
+You may add a method to a struct in the usual way:
 
 ```
-struct Person {
-  const string name;
-}
-
-const var set_name = Person :: void (const Person* this, const string name) {
-  this!.name = name;
+const type Person = struct {
+  mut string name;
+  void fn set_name(const string _name){
+    name = _name;
+    // or, this!.name = _name;
+  }
 }
 
 const var person = Person { name: "Steve" };
@@ -131,6 +131,25 @@ print(person.name);
 person.set_name("Kev");
 print(person.name);
 // "Kev"
+```
+
+You may declare an anonymous struct easily.
+
+```
+const var anonymous = struct { const int x; } { x: 42 };
+print(anonymous.x);
+// 42
+```
+
+There are no constructors, but you can use the anonymous struct pattern to simulate them.
+
+```
+fn Person(const int age, const string name){
+  return struct {
+    const int age;
+    const string name;
+  } { age, name };
+}
 ```
 
 ### Control Flow
@@ -294,19 +313,17 @@ free(y);
 You may declare a destructor for structs with the `~` operator.
 
 ```
-struct ReferenceHolder {
+const type ReferenceHolder = struct {
   const int* ref;
+  void fn ~(){
+    free(ref);
+  }
 }
-const var ~ = Point :: void (const ReferenceHolder* this) {
-  free(this!.ref);
-}
-const var ref = heap(10);
 {
-  const var ref_holder = ReferenceHolder { ref };
+  const int* ref =  heap(10)
+  const var ref = ReferenceHolder({ ref });
 }
-// scope for ref_holder ends, destructor is called
-print(ref);
-// error, already freed ref
+// ref is freed
 ```
 
 You may use the `box` keyword to generate a RAII object for dynamic objects.
