@@ -13,7 +13,7 @@ export fn LinkedList(const type T){
     
     fn add(const T value){
       const Node* node = heap(Node { value });
-      with this!.tail as tl {
+      with this.tail as tl {
         tail!.next = node;
         goto end;
       }
@@ -27,7 +27,7 @@ export fn LinkedList(const type T){
   T fn get(const int idx){
     with this!.head as cur {
       loop(mut uint i=0u; i<idx ;++i){
-        with cur!.next as next {
+        with cur.next as next {
           cur = next;
           continue;
         }
