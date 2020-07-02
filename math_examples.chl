@@ -1,0 +1,22 @@
+import sqrt, pow from 'math';
+
+declare Vector struct {
+  const number x, y, z;
+  number fn dist(const Vector q){
+    const var p = this;
+    return sqrt(
+      pow(q.x - p.x, 2) + pow(q.y - p.y, 2) + pow(q.y - p.y, 2)
+    );
+}
+
+print((Vector { 1, 2, 3}).dist(Vector {2, 3, 4}));
+// 1
+
+fn fib(const uint n){
+  return 
+    if (n == 1) { yield 1u; }
+    else        { yield n * fib(n-1); }
+}
+
+print(fib(10));
+// 3628800
