@@ -19,5 +19,5 @@ You can infer the type of a variable with the keyword `var`.
 var name = "Bob";
 name = 42; // ERROR: cannot assign type "numeric" to type "string"
 const var immutable = "abc";
-hi += "def"; // ERROR: cannot reassign const variable "immutable"
+immutable += "def"; // ERROR: cannot reassign const variable "immutable"
 ```
