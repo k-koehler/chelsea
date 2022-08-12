@@ -13,8 +13,8 @@ export fn LinkedList(const type T){
     
     fn add(const T value){
       const Node* node = heap(Node { value });
-      with this.tail as tl {
-        tail!.next = node;
+      with this.tail as const var tl {
+        tl!.next = node;
         goto end;
       }
       this!.head = node;
@@ -25,9 +25,9 @@ export fn LinkedList(const type T){
   }
   
   T fn get(const int idx){
-    with this!.head as cur {
+    with this!.head as mut var cur {
       loop(mut uint i=0u; i<idx ;++i){
-        with cur.next as next {
+        with cur!.next as const var next {
           cur = next;
           continue;
         }
