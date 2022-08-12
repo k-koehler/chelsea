@@ -210,7 +210,7 @@ int? fn get_even_number(const int[3] arr){
   }
 }
 
-with get_even_number([1,2,3]) as n {
+with get_even_number([1,2,3]) as const var n {
   print(n);
 }
 // prints 2
