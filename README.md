@@ -273,7 +273,7 @@ Many times, however, you will want to handle your error, such as opening a file.
 File*? fn open(const string fn){ ... }
 
 // userland
-with open("foo.txt") as fp {
+with open("foo.txt") as const var fp {
   // succeeded
 }
 ```
